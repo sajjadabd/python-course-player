@@ -103,6 +103,11 @@ tree.configure(yscrollcommand=vsb.set)
 
 
 
+
+
+
+
+
 def HighLightRow(event):
     global tree 
 
@@ -123,18 +128,50 @@ def DeHightLightRow(event):
 
 
 
+till = []
+
+
+def addIfNotInTill(index) :
+    global till
+    found = False
+    for item in till:
+        if index == item :
+            found = True
+    
+    if (found == False) :
+        till.append(index)
+
+
+
+
+
+def saveWatchedVideos() :
+    global path
+    global till
+    
+    lengthOfTill = len(till)
+    f = open( path.replace("/" , "\\") + "\\saved.txt" , "w")
+    f.write("untill=" + str(lengthOfTill) )
+    f.close()
+
+
+
+
 def OnDoubleClick(event):
     global searchString
     global result
     global filteredResult
     global backUpResult
     global tree 
+    global till
 
     result = backUpResult
 
     item = tree.selection()
     print(item)
     index = int(item[0])
+    addIfNotInTill(index)
+    saveWatchedVideos()
     tree.tag_configure( index , background ='#457b9d' , foreground ='#e9edc9' )
     print(index)
     #searchString = index
@@ -253,7 +290,7 @@ def add_data() :
         parrantIndex = theIndex - 1 - 1
         #print(result[counter])
         precedence = '0' * ( abs( len(str(counter+1)) - len(str(len(result))) ) )
-        print(precedence)
+        #print(precedence)
         if os.path.isfile(result[counter]) :
             tree.insert('', tk.END, text=precedence+str(counter+1)+" - "+thePath[1:] , iid=counter, open=False , tags = counter )
             tree.tag_configure( counter , background ='#264653' , foreground ='#e9edc9' )
@@ -283,10 +320,60 @@ def fetchAllFilesFromPath() :
         result = natsort.natsorted(result)
         #print(result)
         add_data()
+        highlightWatchedVideos()
         backUpResult = result
         label.config(text=(path + f" ({len(result)} files)"))
     except : 
         pass
+
+
+
+
+
+
+
+untill = ''
+
+
+
+
+def fetchSavedHistory() : 
+    global untill
+    global path
+    global till
+    #print(path.replace("/" , "\\") + "\\saved.txt")
+    try :
+        f = open( path.replace("/" , "\\") + "\\saved.txt" , "r")
+        line = f.readline()
+        #print(line.split("="))
+        output = line.split("=")
+        untill = int(output[1])
+        for n in range(untill):
+          till.append(n) 
+        #f.write("Woops! I have deleted the content!")
+        f.close()
+    except : 
+        pass
+
+
+
+
+def highlightWatchedVideos() :
+    global tree
+    global result
+
+    length = len(result)
+    
+    if untill != '' :
+        counter = 0
+        while counter < untill :
+            tree.tag_configure( counter , background ='#457b9d' , foreground ='#e9edc9' )
+            counter += 1
+                
+            
+
+
+
 
 def openfile():
     global backUpResult
@@ -298,6 +385,7 @@ def openfile():
     if( path.strip() == '' ) :
         pass
     else :
+        fetchSavedHistory()
         fetchAllFilesFromPath()
         #return filedialog.askopenfilename()
     
