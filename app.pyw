@@ -376,6 +376,7 @@ search.pack(fill="both")
 #tree.heading('#0', text='', anchor=tk.W)
 #tree.bind("<Double-1>", OnDoubleClick)
 tree.bind("<Double-1>", OnDoubleClick)
+tree.bind("<Return>", OnDoubleClick)
 
 
 
