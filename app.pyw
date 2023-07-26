@@ -320,7 +320,8 @@ def add_data() :
         precedence = '0' * ( abs( len(str(counter+1)) - len(str(len(result))) ) )
         #print(precedence)
         if os.path.isfile(result[counter]) :
-            tree.insert('', tk.END, text=precedence+str(counter+1)+" - "+thePath[1:] , iid=counter, open=False , tags = counter )
+            eachTextString = precedence + str(counter+1) + " - " + thePath[1:]
+            tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=counter, open=False , tags = counter )
             tree.tag_configure( counter , background ='#264653' , foreground ='#e9edc9' )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
         counter += 1
