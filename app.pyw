@@ -98,7 +98,6 @@ vsb = ttk.Scrollbar(orient="vertical",command=tree.yview)
 vsb.pack( side=tkinter.RIGHT , fill='both' )
 tree.configure(yscrollcommand=vsb.set)
 
-tree.tag_configure( 0 , background ='#264653' , foreground ='#e9edc9' )
 
 
 
@@ -115,6 +114,7 @@ def OnDoubleClick(event):
     item = tree.selection()
     print(item)
     index = int(item[0])
+    tree.tag_configure( index , background ='#457b9d' , foreground ='#e9edc9' )
     print(index)
     #searchString = index
     #path = searchTheTable()
@@ -234,7 +234,8 @@ def add_data() :
         precedence = '0' * ( abs( len(str(counter+1)) - len(str(len(result))) ) )
         print(precedence)
         if os.path.isfile(result[counter]) :
-            tree.insert('', tk.END, text=precedence+str(counter+1)+" - "+thePath[1:] , iid=counter, open=False , tags = 0 )
+            tree.insert('', tk.END, text=precedence+str(counter+1)+" - "+thePath[1:] , iid=counter, open=False , tags = counter )
+            tree.tag_configure( counter , background ='#264653' , foreground ='#e9edc9' )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
         counter += 1
 
