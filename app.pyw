@@ -110,9 +110,14 @@ tree.configure(yscrollcommand=vsb.set)
 
 def HighLightRow(event):
     global tree 
+    global till
 
     item = tree.selection()
     index = int(item[0])
+    
+    addIfNotInTill(index)
+    saveWatchedVideos()
+    
     tree.tag_configure( index , background ='#457b9d' , foreground ='#e9edc9' )
 
 
@@ -120,9 +125,14 @@ def HighLightRow(event):
 
 def DeHightLightRow(event):
     global tree 
+    global till
 
     item = tree.selection()
     index = int(item[0])
+    
+    removeIfInTill(index)
+    saveWatchedVideos()
+    
     tree.tag_configure( index , background ='#264653' , foreground ='#e9edc9' )
 
 
@@ -142,7 +152,16 @@ def addIfNotInTill(index) :
         till.append(index)
 
 
-
+def removeIfInTill(index) :
+    global till
+    found = False
+    counter = 0
+    while counter < len(till) :
+        if index == till[counter] :
+            till.remove(index)
+            break
+        counter += 1
+    
 
 
 def saveWatchedVideos() :
@@ -151,7 +170,12 @@ def saveWatchedVideos() :
     
     lengthOfTill = len(till)
     f = open( path.replace("/" , "\\") + "\\saved.txt" , "w")
-    f.write("untill=" + str(lengthOfTill) )
+    
+    counter = 0
+    while counter < len(till) :
+        f.write( str(till[counter]) + "\n" )
+        counter += 1
+    
     f.close()
 
 
@@ -170,8 +194,12 @@ def OnDoubleClick(event):
     item = tree.selection()
     print(item)
     index = int(item[0])
+    
+    
     addIfNotInTill(index)
     saveWatchedVideos()
+    
+    
     tree.tag_configure( index , background ='#457b9d' , foreground ='#e9edc9' )
     print(index)
     #searchString = index
@@ -344,13 +372,10 @@ def fetchSavedHistory() :
     #print(path.replace("/" , "\\") + "\\saved.txt")
     try :
         f = open( path.replace("/" , "\\") + "\\saved.txt" , "r")
-        line = f.readline()
-        #print(line.split("="))
-        output = line.split("=")
-        untill = int(output[1])
-        for n in range(untill):
-          till.append(n) 
-        #f.write("Woops! I have deleted the content!")
+        #line = f.readline()
+        for line in f:
+            # All lines and strip last line which is newline
+            till.append(int(line.strip()))
         f.close()
     except : 
         pass
@@ -360,15 +385,13 @@ def fetchSavedHistory() :
 
 def highlightWatchedVideos() :
     global tree
-    global result
+    global till
 
-    length = len(result)
     
-    if untill != '' :
-        counter = 0
-        while counter < untill :
-            tree.tag_configure( counter , background ='#457b9d' , foreground ='#e9edc9' )
-            counter += 1
+    counter = 0
+    while counter < len(till) :
+        tree.tag_configure( till[counter] , background ='#457b9d' , foreground ='#e9edc9' )
+        counter += 1
                 
             
 
