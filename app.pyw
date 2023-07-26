@@ -87,7 +87,7 @@ style.configure('Treeview', rowheight=rowHeight)
 #style.map('Treeview',  background=backgroundColors[1] , foreground=foregroundColors[1])
 #style.theme_use("step")
 #style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected', 'invalid' , '#ffb703')])
-style.map('Treeview',  background=[('selected', '#264653')] , foreground=[('selected' , '#ffb703')])
+style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected' , '#ffb703')])
 #('aqua', 'step', 'clam', 'alt', 'default', 'classic')
 
 topFrame = ttk.Frame(root )
