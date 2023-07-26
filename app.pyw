@@ -370,6 +370,8 @@ def fetchSavedHistory() :
     global untill
     global path
     global till
+    
+    till = []
     #print(path.replace("/" , "\\") + "\\saved.txt")
     try :
         f = open( path.replace("/" , "\\") + "\\saved.txt" , "r")
