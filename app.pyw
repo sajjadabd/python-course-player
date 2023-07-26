@@ -6,6 +6,8 @@ from tkinter import ttk
 from tkinter.messagebox import showinfo
 from tkinter import filedialog
 
+from tkinter import font
+
 import os
 
 import natsort
@@ -56,7 +58,9 @@ root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 
 
-rowHeight = 25
+rowHeight = 23
+
+
 fontSize = 12
 
 backgroundColors = [ 
@@ -81,7 +85,7 @@ foregroundColors = [
 ]
 
 style = ttk.Style()
-style.configure("Treeview", font=(None, fontSize))
+style.configure("Treeview", font=("Roboto", fontSize ))
 style.configure('Treeview', rowheight=rowHeight)
 
 #style.map('Treeview',  background=backgroundColors[1] , foreground=foregroundColors[1])
@@ -93,12 +97,18 @@ style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foregr
 topFrame = ttk.Frame(root )
 
 # create a treeview
-tree = ttk.Treeview(root , show="tree")
+tree = ttk.Treeview( root , show="tree")
 
-vsb = ttk.Scrollbar(orient="vertical",command=tree.yview)
-vsb.pack( side=tkinter.RIGHT , fill='both' )
-tree.configure(yscrollcommand=vsb.set)
+vsby = ttk.Scrollbar( root , orient="vertical" ,command=tree.yview)
+#vsbx = ttk.Scrollbar( root , orient="horizontal",command=tree.xview)
 
+
+vsby.pack( side=tkinter.RIGHT , fill='both' )
+#vsbx.pack( side=tkinter.TOP , fill='both' )
+
+
+tree.configure(yscrollcommand=vsby.set)
+#tree.configure(xscrollcommand=vsbx.set)
 
 
 
@@ -528,7 +538,7 @@ tree.bind("<r>", DeHightLightRow)
 # place the Treeview widget on the root window
 #tree.grid(row=1, column=0, sticky=tk.NSEW )
 #tree.pack( anchor=tk.NW , fill="y" , expand=True)
-tree.pack( fill="both" , expand=True)
+tree.pack( fill="both" , expand=True )
 
 
 
