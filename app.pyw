@@ -59,9 +59,32 @@ root.columnconfigure(0, weight=1)
 rowHeight = 22
 fontSize = 11
 
+backgroundColors = [ 
+    'blue' , 
+    '#023e8a' , 
+    '#0077b6' , 
+    '#90e0ef' , ##
+    '#ade8f4' ,
+    '#fff' ,
+]
+
+
+foregroundColors = [ 
+    'black' , 
+    'white' , 
+    'white' , 
+    'black' ,
+    'black' ,
+    'black' ,
+    'black' ,
+    'black' ,
+]
+
 style = ttk.Style()
 style.configure("Treeview", font=(None, fontSize))
 style.configure('Treeview', rowheight=rowHeight)
+
+#style.map('Treeview',  background=backgroundColors[1] , foreground=foregroundColors[1])
 #style.theme_use("step")
 #style.map('Treeview',  background=[('selected', 'invalid' , '#d6ccc2')] , foreground=[('selected', 'invalid' , 'black')])
 #('aqua', 'step', 'clam', 'alt', 'default', 'classic')
@@ -75,7 +98,7 @@ vsb = ttk.Scrollbar(orient="vertical",command=tree.yview)
 vsb.pack( side=tkinter.RIGHT , fill='both' )
 tree.configure(yscrollcommand=vsb.set)
 
-
+tree.tag_configure( 0 , background ='#264653' , foreground ='#e9edc9' )
 
 
 
@@ -126,24 +149,7 @@ backgroundColors = [ 'blue' , 'black' ,
     ]
 """
 
-backgroundColors = [ 'blue' , 
-    '#023e8a' , 
-    '#0077b6' , 
-    '#90e0ef' , ##
-    '#ade8f4' ,
-    '#fff' ,
-    ]
 
-
-foregroundColors = [ 'black' , 
-    'white' , 
-    'white' , 
-    'black' ,
-    'black' ,
-    'black' ,
-    'black' ,
-    'black' ,
-    ]
 
 
 def checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex) :
@@ -225,8 +231,10 @@ def add_data() :
         currentIndex = theIndex - 1
         parrantIndex = theIndex - 1 - 1
         #print(result[counter])
+        precedence = '0' * ( abs( len(str(counter+1)) - len(str(len(result))) ) )
+        print(precedence)
         if os.path.isfile(result[counter]) :
-            tree.insert('', tk.END, text=thePath , iid=counter, open=False)
+            tree.insert('', tk.END, text=precedence+str(counter+1)+" - "+thePath[1:] , iid=counter, open=False , tags = 0 )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
         counter += 1
 
