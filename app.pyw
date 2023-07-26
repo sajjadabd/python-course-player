@@ -114,7 +114,16 @@ tree.configure(yscrollcommand=vsby.set)
 
 
 
+selection_index = None
 
+
+def on_tree_row_click(event):
+    global selection_index
+    # Get the index of the clicked row
+    item = tree.identify_row(event.y)
+    print(item)
+    
+    selection_index = int(item)
 
 
 
@@ -291,6 +300,7 @@ def add_data() :
     global tree
     global backgroundColors
     global foregroundColors
+    global selection_index
 
     length = len(result)
 
@@ -346,7 +356,10 @@ def add_data() :
             tree.tag_configure( counter , background ='#264653' , foreground ='#e9edc9' )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
         counter += 1
-
+    
+    
+    if selection_index != None :
+        tree.selection_set(selection_index)
     # adding children of first node
     # tree.insert('', tk.END, text='John Doe', iid=5, open=False)
     # tree.insert('', tk.END, text='Jane Doe', iid=6, open=False)
@@ -534,6 +547,7 @@ search.pack(fill="both")
 #tree.bind("<Double-1>", OnDoubleClick)
 tree.bind("<Double-1>", OnDoubleClick)
 tree.bind("<Return>", OnDoubleClick)
+tree.bind("<Button-1>", on_tree_row_click)
 
 
 tree.bind("<A>", HighLightRow)
