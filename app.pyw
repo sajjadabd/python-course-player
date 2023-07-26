@@ -16,6 +16,8 @@ import vlc
 
 import subprocess
 
+import numpy as np
+
 
 result = []
 backUpResult = []
@@ -327,8 +329,17 @@ def add_data() :
         currentIndex = theIndex - 1
         parrantIndex = theIndex - 1 - 1
         #print(result[counter])
-        precedence = '0' * ( abs( len(str(counter+1)) - len(str(len(result))) ) )
-        #print(precedence)
+        precedence = '0' * ( abs(len(str(counter+1)) - len(str(len(result)))) )
+        
+        if treeCompleteString == True : 
+            pass 
+        else : 
+            arr = np.array(parentArray)
+            arr = arr[2:len(arr)]
+            thePath = " \\ ".join(arr)
+        
+        #print(thePath)
+        
         if os.path.isfile(result[counter]) :
             eachTextString = precedence + str(counter+1) + " - " + thePath[1:]
             tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=counter, open=False , tags = counter )
@@ -541,6 +552,16 @@ tree.bind("<r>", DeHightLightRow)
 tree.pack( fill="both" , expand=True )
 
 
+treeCompleteString = True
+
+
+def toggle_check():
+    global treeCompleteString
+    # Get the current state of the checkbox
+    treeCompleteString = check_var.get()
+    fetchAllFilesFromPath()
+
+        
 
 
 menubar = tkinter.Menu(root)
@@ -560,6 +581,12 @@ options_menu.add_command(
     command=fetchAllFilesFromPath,
 )
 
+check_var = tk.BooleanVar(value=True)  # Variable to store the checkbox state
+options_menu.add_checkbutton(label="Complete Path", variable=check_var, command=toggle_check)
+
+
+
+
 menubar.add_cascade(
     label="File",
     menu=file_menu,
@@ -570,6 +597,8 @@ menubar.add_cascade(
     label="Options",
     menu=options_menu,
 )
+
+
 
 
 
