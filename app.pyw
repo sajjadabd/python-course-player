@@ -86,7 +86,8 @@ style.configure('Treeview', rowheight=rowHeight)
 
 #style.map('Treeview',  background=backgroundColors[1] , foreground=foregroundColors[1])
 #style.theme_use("step")
-#style.map('Treeview',  background=[('selected', 'invalid' , '#d6ccc2')] , foreground=[('selected', 'invalid' , 'black')])
+#style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected', 'invalid' , '#ffb703')])
+style.map('Treeview',  background=[('selected', '#264653')] , foreground=[('selected' , '#ffb703')])
 #('aqua', 'step', 'clam', 'alt', 'default', 'classic')
 
 topFrame = ttk.Frame(root )
@@ -98,6 +99,26 @@ vsb = ttk.Scrollbar(orient="vertical",command=tree.yview)
 vsb.pack( side=tkinter.RIGHT , fill='both' )
 tree.configure(yscrollcommand=vsb.set)
 
+
+
+
+
+def HighLightRow(event):
+    global tree 
+
+    item = tree.selection()
+    index = int(item[0])
+    tree.tag_configure( index , background ='#457b9d' , foreground ='#e9edc9' )
+
+
+
+
+def DeHightLightRow(event):
+    global tree 
+
+    item = tree.selection()
+    index = int(item[0])
+    tree.tag_configure( index , background ='#264653' , foreground ='#e9edc9' )
 
 
 
@@ -380,6 +401,10 @@ tree.bind("<Double-1>", OnDoubleClick)
 tree.bind("<Return>", OnDoubleClick)
 
 
+tree.bind("<A>", HighLightRow)
+tree.bind("<a>", HighLightRow)
+tree.bind("<R>", DeHightLightRow)
+tree.bind("<r>", DeHightLightRow)
 
 
 
