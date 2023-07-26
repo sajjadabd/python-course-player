@@ -56,8 +56,8 @@ root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 
 
-rowHeight = 22
-fontSize = 11
+rowHeight = 25
+fontSize = 12
 
 backgroundColors = [ 
     'blue' , 
