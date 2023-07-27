@@ -10,6 +10,8 @@ from tkinter import font
 
 import tkinter.font as fnt
 
+from ttkthemes import ThemedStyle
+
 import os
 
 import natsort
@@ -59,6 +61,8 @@ class PlaceholderEntry(tk.Entry):
 
 # create root window
 root = tk.Tk()
+
+#root = ThemedTk(theme="awdark")
 root.title('Easy Search')
 root.geometry('500x400')
 
@@ -100,12 +104,26 @@ rowHeight = 23
 fontSize = 12
 font_properties = ( "ubuntu", fontSize )
 
-style = ttk.Style()
+#style = ttk.Style()
+
+style = ThemedStyle(root)
+style.set_theme("black")   
+
+    
+    
+    
+
+#print(style.theme_names())
+
 style.configure("Treeview", font=font_properties )
 style.configure('Treeview', rowheight=rowHeight)
 
 #style.map('Treeview',  background=backgroundColors[1] , foreground=foregroundColors[1])
-#style.theme_use("step")
+
+
+#style.theme_use("aqua")
+
+
 #style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected', 'invalid' , '#ffb703')])
 style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected' , selectedForegroundColors[themeIndex])])
 #('aqua', 'step', 'clam', 'alt', 'default', 'classic')
@@ -647,9 +665,14 @@ def toggle_check():
 
 
 menubar = tkinter.Menu(root)
+
+menubar.configure(background=backgroundColors[1], foreground=foregroundColors[1])
+
 root.config(menu=menubar)
 
 file_menu = tkinter.Menu(menubar , tearoff=0)
+
+#file_menu.configure(background=backgroundColors[1], foreground=foregroundColors[1])
 
 file_menu.add_command(
     label='Exit',
@@ -657,6 +680,10 @@ file_menu.add_command(
 )
 
 options_menu = tkinter.Menu(menubar , tearoff=0)
+
+
+#options_menu.configure(background=backgroundColors[1], foreground=foregroundColors[1])
+
 
 options_menu.add_command(
     label='Refresh',
@@ -671,6 +698,8 @@ options_menu.add_checkbutton(label="Complete Path", variable=check_var, command=
 
 
 theme_menu = tkinter.Menu(menubar , tearoff=0)
+
+#theme_menu.configure(background=backgroundColors[1], foreground=foregroundColors[1])
 
 
 firstTheme =  tk.BooleanVar(value=True)
