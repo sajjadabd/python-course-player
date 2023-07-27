@@ -732,6 +732,7 @@ def rewriteWatchedVideos(number) :
         counter += 1
     
     f.close()
+    
     fetchSavedHistory()
     fetchAllFilesFromPath(calculateVideoDuration = False),
 
@@ -739,13 +740,14 @@ def rewriteWatchedVideos(number) :
 
 
 def syncWatchHistory() :
-
-    number = askstring('Watch Untill', 'How Many Videos You Watched?')
-    number = int(number)
-    rewriteWatchedVideos(number)
-
+    try :
+        number = askstring('Watch Untill', 'How Many Videos You Watched?')
+        number = int(number)
+        rewriteWatchedVideos(number)
+    except :
+        pass
     
-    return
+
 
 
 
