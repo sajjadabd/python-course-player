@@ -469,6 +469,7 @@ def fetchAllFilesFromPath(calculateVideoDuration = True) :
     backUpResult = result
     label.config(text=(path + f" ({len(result)} files)"))
     
+    tree.focus(selection_index)
 
 
 
@@ -649,6 +650,25 @@ tree.bind("<r>", DeHightLightRow)
 
 
 
+
+
+def arrowUpKeyHandler(event) :
+    global selection_index
+    if selection_index > 0 :
+        selection_index = selection_index - 1
+
+
+
+
+def arrowDownKeyHandler(event) :
+    global selection_index
+    if selection_index < len(result) - 1 :
+        selection_index = selection_index + 1
+    
+
+tree.bind("<Up>" , arrowUpKeyHandler)
+tree.bind("<Down>" , arrowDownKeyHandler)
+
 # place the Searchbar widget on the root window
 # search.grid(row=0, column=0 , sticky=tk.W , ipady = 2  )
 
@@ -719,25 +739,31 @@ def deSelectAllTheme() :
     thirdTheme.set(False)
 
 def applyFirstTheme() :
+    global tree
     global themeIndex
     deSelectAllTheme()
     firstTheme.set(True)
     themeIndex = 0
     fetchAllFilesFromPath(calculateVideoDuration = False)
+    tree.focus(selection_index)
     
 def applySecondTheme() :
+    global tree
     global themeIndex
     deSelectAllTheme()
     secondTheme.set(True)
     themeIndex = 1
     fetchAllFilesFromPath(calculateVideoDuration = False)
+    tree.focus(selection_index)
     
 def applyThirdTheme() :
+    global tree
     global themeIndex
     deSelectAllTheme()
     thirdTheme.set(True)
     themeIndex = 2
     fetchAllFilesFromPath(calculateVideoDuration = False)
+    tree.focus(selection_index)
 
 
 theme_menu.add_checkbutton(label="First Theme", variable=firstTheme , command=applyFirstTheme )
