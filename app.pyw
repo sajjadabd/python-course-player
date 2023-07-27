@@ -436,7 +436,7 @@ video_duration_array = []
 
 
 
-def fetchAllFilesFromPath() :
+def fetchAllFilesFromPath(calculateVideoDuration = True) :
     global search
     global result
     global path
@@ -444,7 +444,7 @@ def fetchAllFilesFromPath() :
     global video_duration_array
     
     
-    video_duration_array = []
+    
 
     #print(path)
 
@@ -455,11 +455,15 @@ def fetchAllFilesFromPath() :
     search.delete(0,tkinter.END)
     result = glob.glob(path + '/**/*.mp4', recursive=True)
     result = natsort.natsorted(result)
-    for item in result :
-        video_length = get_length(item)
-        video_duration_array.append(video_length)
+    
+    if calculateVideoDuration == True : 
+        video_duration_array = []
+        for item in result :
+            video_length = get_length(item)
+            video_duration_array.append(video_length)
         #print(video_length)
     #print(result)
+    
     add_data()
     highlightWatchedVideos()
     backUpResult = result
@@ -520,8 +524,10 @@ def openfile():
     global backUpResult
     global result
     global path
+    
     result = []
     path = filedialog.askdirectory()
+    
     #print(f"#{path}#")
     if( path.strip() == '' ) :
         pass
@@ -659,7 +665,7 @@ def toggle_check():
     global treeCompleteString
     # Get the current state of the checkbox
     treeCompleteString = check_var.get()
-    fetchAllFilesFromPath()
+    fetchAllFilesFromPath(calculateVideoDuration = False)
 
         
 
@@ -687,7 +693,7 @@ options_menu = tkinter.Menu(menubar , tearoff=0)
 
 options_menu.add_command(
     label='Refresh',
-    command=fetchAllFilesFromPath,
+    command=fetchAllFilesFromPath(calculateVideoDuration = False),
 )
 
 check_var = tk.BooleanVar(value=True)  # Variable to store the checkbox state
@@ -717,21 +723,21 @@ def applyFirstTheme() :
     deSelectAllTheme()
     firstTheme.set(True)
     themeIndex = 0
-    fetchAllFilesFromPath()
+    fetchAllFilesFromPath(calculateVideoDuration = False)
     
 def applySecondTheme() :
     global themeIndex
     deSelectAllTheme()
     secondTheme.set(True)
     themeIndex = 1
-    fetchAllFilesFromPath()
+    fetchAllFilesFromPath(calculateVideoDuration = False)
     
 def applyThirdTheme() :
     global themeIndex
     deSelectAllTheme()
     thirdTheme.set(True)
     themeIndex = 2
-    fetchAllFilesFromPath()
+    fetchAllFilesFromPath(calculateVideoDuration = False)
 
 
 theme_menu.add_checkbutton(label="First Theme", variable=firstTheme , command=applyFirstTheme )
