@@ -5,7 +5,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 from tkinter import filedialog
-
+from tkinter.simpledialog import askstring
+from tkinter.messagebox import showinfo
 from tkinter import font
 
 import tkinter.font as fnt
@@ -714,6 +715,43 @@ options_menu = tkinter.Menu(menubar , tearoff=0)
 options_menu.add_command(
     label='Refresh',
     command=fetchAllFilesFromPath(calculateVideoDuration = False),
+)
+
+
+
+
+def rewriteWatchedVideos(number) :
+    global path
+    
+    
+    f = open( path.replace("/" , "\\") + "\\saved.txt" , "w")
+    
+    counter = 0
+    while counter < number :
+        f.write( str(counter) + "\n" )
+        counter += 1
+    
+    f.close()
+    fetchSavedHistory()
+    fetchAllFilesFromPath(calculateVideoDuration = False),
+
+
+
+
+def syncWatchHistory() :
+
+    number = askstring('Watch Untill', 'How Many Videos You Watched?')
+    number = int(number)
+    rewriteWatchedVideos(number)
+
+    
+    return
+
+
+
+options_menu.add_command(
+    label='Sync Watch history',
+    command=syncWatchHistory,
 )
 
 check_var = tk.BooleanVar(value=True)  # Variable to store the checkbox state
