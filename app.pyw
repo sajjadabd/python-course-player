@@ -8,6 +8,8 @@ from tkinter import filedialog
 
 from tkinter import font
 
+import tkinter.font as fnt
+
 import os
 
 import natsort
@@ -60,40 +62,47 @@ root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 
 
-rowHeight = 23
+themeIndex = 0
 
 
-fontSize = 12
+hightlightBackgroundColors = [
+    '#2C001E' ,
+    '#212529' ,
+    '#354f52'
+]
+
 
 backgroundColors = [ 
-    'blue' , 
-    '#023e8a' , 
-    '#0077b6' , 
-    '#90e0ef' , ##
-    '#ade8f4' ,
-    '#fff' ,
+    '#5E2750' , 
+    '#495057' ,
+    '#52796f'
 ]
 
+
+selectedForegroundColors = [
+    '#ffb703' ,
+    '#fca311' ,
+    '#ffb703' ,
+]
 
 foregroundColors = [ 
-    'black' , 
-    'white' , 
-    'white' , 
-    'black' ,
-    'black' ,
-    'black' ,
-    'black' ,
-    'black' ,
+    '#e9edc9' , 
+    '#cad2c5' ,
+    '#e9edc9' ,
 ]
 
+rowHeight = 23
+fontSize = 12
+font_properties = ( "ubuntu", fontSize )
+
 style = ttk.Style()
-style.configure("Treeview", font=("Roboto", fontSize ))
+style.configure("Treeview", font=font_properties )
 style.configure('Treeview', rowheight=rowHeight)
 
 #style.map('Treeview',  background=backgroundColors[1] , foreground=foregroundColors[1])
 #style.theme_use("step")
 #style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected', 'invalid' , '#ffb703')])
-style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected' , '#ffb703')])
+style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected' , selectedForegroundColors[themeIndex])])
 #('aqua', 'step', 'clam', 'alt', 'default', 'classic')
 
 topFrame = ttk.Frame(root )
@@ -121,8 +130,6 @@ def on_tree_row_click(event):
     global selection_index
     # Get the index of the clicked row
     item = tree.identify_row(event.y)
-    print(item)
-    
     selection_index = int(item)
 
 
@@ -132,6 +139,7 @@ def on_tree_row_click(event):
 def HighLightRow(event):
     global tree 
     global till
+    global themeIndex
 
     item = tree.selection()
     index = int(item[0])
@@ -139,7 +147,7 @@ def HighLightRow(event):
     addIfNotInTill(index)
     saveWatchedVideos()
     
-    tree.tag_configure( index , background ='#457b9d' , foreground ='#e9edc9' )
+    tree.tag_configure( index , background =hightlightBackgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
 
 
 
@@ -147,6 +155,7 @@ def HighLightRow(event):
 def DeHightLightRow(event):
     global tree 
     global till
+    global themeIndex
 
     item = tree.selection()
     index = int(item[0])
@@ -154,7 +163,7 @@ def DeHightLightRow(event):
     removeIfInTill(index)
     saveWatchedVideos()
     
-    tree.tag_configure( index , background ='#264653' , foreground ='#e9edc9' )
+    tree.tag_configure( index , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
 
 
 
@@ -209,6 +218,7 @@ def OnDoubleClick(event):
     global backUpResult
     global tree 
     global till
+    global themeIndex
 
     result = backUpResult
 
@@ -221,7 +231,7 @@ def OnDoubleClick(event):
     saveWatchedVideos()
     
     
-    tree.tag_configure( index , background ='#457b9d' , foreground ='#e9edc9' )
+    tree.tag_configure( index , background =hightlightBackgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
     print(index)
     #searchString = index
     #path = searchTheTable()
@@ -264,18 +274,16 @@ def checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIn
     global tree
     global backgroundColors
     global foregroundColors
-    
+    global themeIndex
     
     if ( currentIndex == 0 ) :
         return
     else :
-        try :
-            #print('try : ' , f'{parentArray[parrantIndex]}' , parentArray[currentIndex] , currentIndex , parrantIndex )
-            checkToSeeIfThereIsParents(parentArray , theIndex - 1 , currentIndex - 1 , parrantIndex - 1 )
-            tree.insert( parentArray[parrantIndex], tk.END, iid = parentArray[currentIndex] , text=parentArray[currentIndex], open=False , tags = (currentIndex) )
-            tree.tag_configure( theIndex-1 , background = backgroundColors[theIndex-1] , foreground = foregroundColors[theIndex-1])
-        except : 
-            pass
+        #print('try : ' , f'{parentArray[parrantIndex]}' , parentArray[currentIndex] , currentIndex , parrantIndex )
+        checkToSeeIfThereIsParents(parentArray , theIndex - 1 , currentIndex - 1 , parrantIndex - 1 )
+        tree.insert( parentArray[parrantIndex], tk.END, iid = parentArray[currentIndex] , text=parentArray[currentIndex], open=False , tags = (currentIndex) )
+        tree.tag_configure( theIndex-1 , background =backgroundColors[themeIndex] , foreground = foregroundColors[theIndex-1])
+        
     """
     try :
         print('try : ' , f'{parentArray[parrantIndex]}' , parentArray[currentIndex] , currentIndex , parrantIndex )
@@ -301,6 +309,7 @@ def add_data() :
     global backgroundColors
     global foregroundColors
     global selection_index
+    global themeIndex
 
     length = len(result)
 
@@ -353,10 +362,11 @@ def add_data() :
         if os.path.isfile(result[counter]) :
             eachTextString = precedence + str(counter+1) + " - " + thePath[1:]
             tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=counter, open=False , tags = counter )
-            tree.tag_configure( counter , background ='#264653' , foreground ='#e9edc9' )
+            tree.tag_configure( counter , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
         counter += 1
     
+    style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected' , selectedForegroundColors[themeIndex])])
     
     if selection_index != None :
         tree.selection_set(selection_index)
@@ -377,17 +387,16 @@ def fetchAllFilesFromPath() :
     if( path.strip() == '') :
         return
 
-    try :
-        search.delete(0,tkinter.END)
-        result = glob.glob(path + '/**/*.mp4', recursive=True)
-        result = natsort.natsorted(result)
-        #print(result)
-        add_data()
-        highlightWatchedVideos()
-        backUpResult = result
-        label.config(text=(path + f" ({len(result)} files)"))
-    except : 
-        pass
+    
+    search.delete(0,tkinter.END)
+    result = glob.glob(path + '/**/*.mp4', recursive=True)
+    result = natsort.natsorted(result)
+    #print(result)
+    add_data()
+    highlightWatchedVideos()
+    backUpResult = result
+    label.config(text=(path + f" ({len(result)} files)"))
+    
 
 
 
@@ -407,15 +416,14 @@ def fetchSavedHistory() :
     
     till = []
     #print(path.replace("/" , "\\") + "\\saved.txt")
-    try :
-        f = open( path.replace("/" , "\\") + "\\saved.txt" , "r")
-        #line = f.readline()
-        for line in f:
-            # All lines and strip last line which is newline
-            till.append(int(line.strip()))
-        f.close()
-    except : 
-        pass
+
+    f = open( path.replace("/" , "\\") + "\\saved.txt" , "r")
+    #line = f.readline()
+    for line in f:
+        # All lines and strip last line which is newline
+        till.append(int(line.strip()))
+    f.close()
+
 
 
 
@@ -423,11 +431,11 @@ def fetchSavedHistory() :
 def highlightWatchedVideos() :
     global tree
     global till
-
+    global themeIndex
     
     counter = 0
     while counter < len(till) :
-        tree.tag_configure( till[counter] , background ='#457b9d' , foreground ='#e9edc9' )
+        tree.tag_configure( till[counter] , background =hightlightBackgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
         counter += 1
                 
             
@@ -450,8 +458,13 @@ def openfile():
         #return filedialog.askopenfilename()
     
 
-label = ttk.Label(topFrame , text='select folder to load directories ...' , font=("Calibri",12) )
-button = ttk.Button(topFrame , text = 'browse' , command=openfile)
+
+buttonFont = fnt.Font(family='ubuntu', size=36, weight='bold')
+
+style.configure( 'my.TButton', font=font_properties )
+label = ttk.Label(topFrame , text='select folder to load directories ...' , font=font_properties )
+button = ttk.Button(topFrame , text = 'browse' , command=openfile , style='my.TButton'  )
+
 
 #label.place( relx=0.5 , rely=0.5 )
 #button.place( relx=0.5 , rely=0.5 )
@@ -536,7 +549,7 @@ def return_pressed(event):
 
 #sv.trace("w", lambda name, index, mode, sv=sv: callback(sv))
 #create search bar
-search = ttk.Entry(root  , font=("Calibri",12))
+search = ttk.Entry( root  , font=font_properties )
 #search.bind('<Return>', return_pressed)
 search.bind('<KeyRelease>', return_pressed)
 
@@ -601,6 +614,50 @@ options_menu.add_checkbutton(label="Complete Path", variable=check_var, command=
 
 
 
+
+theme_menu = tkinter.Menu(menubar , tearoff=0)
+
+
+firstTheme =  tk.BooleanVar(value=True)
+secondTheme = tk.BooleanVar(value=False)
+thirdTheme = tk.BooleanVar(value=False)
+
+
+def deSelectAllTheme() :
+    firstTheme.set(False)
+    secondTheme.set(False)
+    thirdTheme.set(False)
+
+def applyFirstTheme() :
+    global themeIndex
+    deSelectAllTheme()
+    firstTheme.set(True)
+    themeIndex = 0
+    fetchAllFilesFromPath()
+    
+def applySecondTheme() :
+    global themeIndex
+    deSelectAllTheme()
+    secondTheme.set(True)
+    themeIndex = 1
+    fetchAllFilesFromPath()
+    
+def applyThirdTheme() :
+    global themeIndex
+    deSelectAllTheme()
+    thirdTheme.set(True)
+    themeIndex = 2
+    fetchAllFilesFromPath()
+
+
+theme_menu.add_checkbutton(label="First Theme", variable=firstTheme , command=applyFirstTheme )
+
+theme_menu.add_checkbutton(label="Second Theme", variable=secondTheme , command=applySecondTheme )
+
+theme_menu.add_checkbutton(label="Third Theme", variable=thirdTheme , command=applyThirdTheme )
+
+
+
 menubar.add_cascade(
     label="File",
     menu=file_menu,
@@ -613,7 +670,10 @@ menubar.add_cascade(
 )
 
 
-
+menubar.add_cascade(
+    label="Theme",
+    menu=theme_menu,
+)
 
 
 
