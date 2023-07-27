@@ -21,6 +21,11 @@ import subprocess
 import numpy as np
 
 
+import cv2
+
+import datetime
+
+
 result = []
 backUpResult = []
 path = ''
@@ -223,7 +228,7 @@ def OnDoubleClick(event):
     result = backUpResult
 
     item = tree.selection()
-    print(item)
+    #print(item)
     index = int(item[0])
     
     
@@ -232,12 +237,12 @@ def OnDoubleClick(event):
     
     
     tree.tag_configure( index , background =hightlightBackgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
-    print(index)
+    #print(index)
     #searchString = index
     #path = searchTheTable()
     #path = path[0].replace("/" , "\\")
     path = result[index].replace("/" , "\\")
-    print(path)
+    #print(path)
     subprocess.Popen(f"vlc \"{path}\"")
     
     #vlc_instance = vlc.Instance()
@@ -310,6 +315,7 @@ def add_data() :
     global foregroundColors
     global selection_index
     global themeIndex
+    global video_duration_array
 
     length = len(result)
 
@@ -360,7 +366,7 @@ def add_data() :
         #print(thePath)
         
         if os.path.isfile(result[counter]) :
-            eachTextString = precedence + str(counter+1) + " - " + thePath[1:]
+            eachTextString = "[" + str(video_duration_array[counter]) + "]" + " - " + precedence + str(counter+1) + " - " + thePath[1:]
             tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=counter, open=False , tags = counter )
             tree.tag_configure( counter , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
@@ -376,11 +382,51 @@ def add_data() :
     # tree.move(5, 0, 0)
     # tree.move(6, 0, 1)
 
+
+
+
+
+
+
+
+
+
+
+
+
+def get_length(filename):
+    video = cv2.VideoCapture(filename)
+
+    #duration = video.get(cv2.CAP_PROP_POS_MSEC)
+    #frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
+
+    # count the number of frames
+    frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+    fps = video.get(cv2.CAP_PROP_FPS)
+      
+    # calculate duration of the video
+    seconds = round(frames / fps)
+    video_time = datetime.timedelta(seconds=seconds)
+    
+    return video_time
+    
+
+
+
+video_duration_array = []
+
+
+
+
 def fetchAllFilesFromPath() :
     global search
     global result
     global path
     global backUpResult
+    global video_duration_array
+    
+    
+    video_duration_array = []
 
     #print(path)
 
@@ -391,6 +437,10 @@ def fetchAllFilesFromPath() :
     search.delete(0,tkinter.END)
     result = glob.glob(path + '/**/*.mp4', recursive=True)
     result = natsort.natsorted(result)
+    for item in result :
+        video_length = get_length(item)
+        video_duration_array.append(video_length)
+        #print(video_length)
     #print(result)
     add_data()
     highlightWatchedVideos()
@@ -440,6 +490,11 @@ def highlightWatchedVideos() :
                 
             
 
+
+
+
+
+    
 
 
 
