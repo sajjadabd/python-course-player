@@ -265,9 +265,12 @@ def OnDoubleClick(event):
     
     if player_index == 0 :
         subprocess.Popen(f"vlc \"{path}\"")
-    else :
+    elif player_index == 1 :
         subprocess.Popen(f"gom \"{path}\"")
-    
+    elif player_index == 2 : 
+        subprocess.Popen(f"PotPlayerMini64 \"{path}\"")
+    elif player_index == 3 : 
+        subprocess.Popen(f"mpv \"{path}\"")
     #vlc_instance = vlc.Instance()
     # creating a media player
     #player = vlc_instance.media_player_new()
@@ -557,7 +560,7 @@ button = ttk.Button(topFrame , text = 'browse' , command=openfile , style='my.TB
 label.pack( expand=True , fill='both'  , side=tkinter.LEFT , anchor=tkinter.NW)
 button.pack( expand=False  , fill='none'  , side=tkinter.RIGHT  , anchor=tkinter.NE)
 
-topFrame.pack(  fill='both' )
+topFrame.pack( fill='both' )
 
 sv = tkinter.StringVar()
 
@@ -738,7 +741,7 @@ def rewriteWatchedVideos(number) :
     f.close()
     
     fetchSavedHistory()
-    fetchAllFilesFromPath(calculateVideoDuration = False),
+    fetchAllFilesFromPath(calculateVideoDuration = False)
 
 
 
@@ -760,6 +763,8 @@ options_menu.add_command(
     command=syncWatchHistory,
 )
 
+
+
 check_var = tk.BooleanVar(value=True)  # Variable to store the checkbox state
 options_menu.add_checkbutton(label="Complete Path", variable=check_var, command=toggle_check)
 
@@ -774,7 +779,8 @@ player_index = 0
 def deSelectAllPlayers() :
     vlcplayer.set(False)
     gomplayer.set(False)
-
+    potplayer.set(False)
+    mpvplayer.set(False)
 
 
 def applyVLC() :
@@ -792,23 +798,34 @@ def applyGOM() :
     player_index = 1
     return
 
+def applyPOT() :
+    global player_index
+    deSelectAllPlayers()
+    potplayer.set(True)
+    player_index = 2
+    return
 
-vlcplayer =  tk.BooleanVar(value=True)
+
+def applyMPV() :
+    global player_index
+    deSelectAllPlayers()
+    mpvplayer.set(True)
+    player_index = 3
+    return
+    
+    
+
+vlcplayer = tk.BooleanVar(value=True)
 gomplayer = tk.BooleanVar(value=False)
-
+potplayer = tk.BooleanVar(value=False)
+mpvplayer = tk.BooleanVar(value=False)
 
 player_menu = tkinter.Menu(menubar , tearoff=0)
 
-
 player_menu.add_checkbutton(label="vlc", variable=vlcplayer , command=applyVLC )
-
 player_menu.add_checkbutton(label="gom", variable=gomplayer , command=applyGOM )
-
-
-
-
-
-
+player_menu.add_checkbutton(label="pot", variable=potplayer , command=applyPOT )
+player_menu.add_checkbutton(label="mpv", variable=mpvplayer , command=applyMPV )
 
 
 
@@ -834,6 +851,7 @@ def deSelectAllTheme() :
     secondTheme.set(False)
     thirdTheme.set(False)
 
+
 def applyFirstTheme() :
     global tree
     global themeIndex
@@ -842,7 +860,8 @@ def applyFirstTheme() :
     themeIndex = 0
     fetchAllFilesFromPath(calculateVideoDuration = False)
     tree.focus(selection_index)
-    
+
+
 def applySecondTheme() :
     global tree
     global themeIndex
@@ -851,7 +870,8 @@ def applySecondTheme() :
     themeIndex = 1
     fetchAllFilesFromPath(calculateVideoDuration = False)
     tree.focus(selection_index)
-    
+
+
 def applyThirdTheme() :
     global tree
     global themeIndex
