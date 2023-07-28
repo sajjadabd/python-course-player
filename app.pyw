@@ -271,6 +271,8 @@ def OnDoubleClick(event):
         subprocess.Popen(f"PotPlayerMini64 \"{path}\"")
     elif player_index == 3 : 
         subprocess.Popen(f"mpv \"{path}\"")
+    elif player_index == 4 : 
+        subprocess.Popen(f"KMPlayer64 \"{path}\"")
     #vlc_instance = vlc.Instance()
     # creating a media player
     #player = vlc_instance.media_player_new()
@@ -781,6 +783,7 @@ def deSelectAllPlayers() :
     gomplayer.set(False)
     potplayer.set(False)
     mpvplayer.set(False)
+    kmpplayer.set(False)
 
 
 def applyVLC() :
@@ -812,13 +815,23 @@ def applyMPV() :
     mpvplayer.set(True)
     player_index = 3
     return
-    
-    
+  
+
+  
+def applyKMP() :
+    global player_index
+    deSelectAllPlayers()
+    kmpplayer.set(True)
+    player_index = 4
+    return
+
+   
 
 vlcplayer = tk.BooleanVar(value=True)
 gomplayer = tk.BooleanVar(value=False)
 potplayer = tk.BooleanVar(value=False)
 mpvplayer = tk.BooleanVar(value=False)
+kmpplayer = tk.BooleanVar(value=False)
 
 player_menu = tkinter.Menu(menubar , tearoff=0)
 
@@ -826,6 +839,7 @@ player_menu.add_checkbutton(label="vlc", variable=vlcplayer , command=applyVLC )
 player_menu.add_checkbutton(label="gom", variable=gomplayer , command=applyGOM )
 player_menu.add_checkbutton(label="pot", variable=potplayer , command=applyPOT )
 player_menu.add_checkbutton(label="mpv", variable=mpvplayer , command=applyMPV )
+player_menu.add_checkbutton(label="kmp", variable=kmpplayer , command=applyKMP )
 
 
 
