@@ -262,7 +262,11 @@ def OnDoubleClick(event):
     #path = path[0].replace("/" , "\\")
     path = result[index].replace("/" , "\\")
     #print(path)
-    subprocess.Popen(f"vlc \"{path}\"")
+    
+    if player_index == 0 :
+        subprocess.Popen(f"vlc \"{path}\"")
+    else :
+        subprocess.Popen(f"gom \"{path}\"")
     
     #vlc_instance = vlc.Instance()
     # creating a media player
@@ -490,14 +494,15 @@ def fetchSavedHistory() :
     
     till = []
     #print(path.replace("/" , "\\") + "\\saved.txt")
-
-    f = open( path.replace("/" , "\\") + "\\saved.txt" , "r")
-    #line = f.readline()
-    for line in f:
-        # All lines and strip last line which is newline
-        till.append(int(line.strip()))
-    f.close()
-
+    try :
+        f = open( path.replace("/" , "\\") + "\\saved.txt" , "r")
+        #line = f.readline()
+        for line in f:
+            # All lines and strip last line which is newline
+            till.append(int(line.strip()))
+        f.close()
+    except :
+        pass
 
 
 
@@ -523,7 +528,6 @@ def highlightWatchedVideos() :
 
 
 def openfile():
-    global backUpResult
     global result
     global path
     
@@ -763,6 +767,58 @@ options_menu.add_checkbutton(label="Complete Path", variable=check_var, command=
 
 
 
+player_index = 0
+
+
+
+def deSelectAllPlayers() :
+    vlcplayer.set(False)
+    gomplayer.set(False)
+
+
+
+def applyVLC() :
+    global player_index
+    deSelectAllPlayers()
+    vlcplayer.set(True)
+    player_index = 0
+    return
+
+
+def applyGOM() :
+    global player_index
+    deSelectAllPlayers()
+    gomplayer.set(True)
+    player_index = 1
+    return
+
+
+vlcplayer =  tk.BooleanVar(value=True)
+gomplayer = tk.BooleanVar(value=False)
+
+
+player_menu = tkinter.Menu(menubar , tearoff=0)
+
+
+player_menu.add_checkbutton(label="vlc", variable=vlcplayer , command=applyVLC )
+
+player_menu.add_checkbutton(label="gom", variable=gomplayer , command=applyGOM )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 theme_menu = tkinter.Menu(menubar , tearoff=0)
 
 #theme_menu.configure(background=backgroundColors[1], foreground=foregroundColors[1])
@@ -831,6 +887,11 @@ menubar.add_cascade(
     menu=theme_menu,
 )
 
+
+menubar.add_cascade(
+    label="Player",
+    menu=player_menu,
+)
 
 
 # run the app
