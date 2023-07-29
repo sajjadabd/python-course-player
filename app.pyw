@@ -599,7 +599,7 @@ def openfile():
 
 buttonFont = fnt.Font(family='ubuntu', size=36, weight='bold')
 
-style.configure( 'my.TButton', font=font_properties )
+style.configure( 'my.TButton', font=font_properties , anchor='c' )
 label = ttk.Label(topFrame , text='select folder to load directories ...' , font=font_properties )
 button = ttk.Button(topFrame , text = 'browse' , command=openfile , style='my.TButton'  )
 
