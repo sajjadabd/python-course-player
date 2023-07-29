@@ -64,7 +64,7 @@ class PlaceholderEntry(tk.Entry):
 root = tk.Tk()
 
 #root = ThemedTk(theme="awdark")
-root.title('Easy Search')
+root.title('Playlist Manager')
 root.geometry('500x400')
 
 # configure the grid layout
