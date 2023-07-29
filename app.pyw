@@ -75,30 +75,78 @@ root.columnconfigure(0, weight=1)
 themeIndex = 0
 
 
+
+
+
 hightlightBackgroundColors = [
     '#2C001E' ,
     '#212529' ,
-    '#354f52'
+    '#354f52' ,
+    '#0d1b2a' , 
+    '#2e1129' ,
+    '#03071e' ,
+    '#370617' ,
+    '#590d22' ,
+    '#10002b' ,
+    '#212529' ,
+    '#582f0e' ,
+    '#081c15' ,
+    '#0d1321' ,
+    '#2e1129' ,
 ]
 
 
 backgroundColors = [ 
     '#5E2750' , 
     '#495057' ,
-    '#52796f'
+    '#52796f' ,
+    '#1b263b' ,
+    '#502a4b' ,
+    '#370617' ,
+    '#6a040f' ,
+    '#800f2f' ,
+    '#240046' ,
+    '#343a40' ,
+    '#7f4f24' ,
+    '#1b4332' ,
+    '#1d2d44' ,
+    '#502a4b' ,
 ]
+
 
 
 selectedForegroundColors = [
     '#ffb703' ,
     '#fca311' ,
     '#ffb703' ,
+    '#ffb703' ,
+    '#fca311' ,
+    '#ffb703' ,
+    '#ffb703' ,
+    '#fca311' ,
+    '#ffb703' ,
+    '#ffb703' ,
+    '#fca311' ,
+    '#ffb703' ,
+    '#ffb703' ,
+    '#fca311' ,
 ]
 
 foregroundColors = [ 
     '#e9edc9' , 
     '#cad2c5' ,
     '#e9edc9' ,
+    '#e9edc9' , 
+    '#cad2c5' ,
+    '#e9edc9' ,
+    '#e9edc9' , 
+    '#cad2c5' ,
+    '#e9edc9' ,
+    '#e9edc9' , 
+    '#cad2c5' ,
+    '#e9edc9' ,
+    '#e9edc9' , 
+    '#cad2c5' ,
 ]
 
 rowHeight = 23
@@ -778,70 +826,41 @@ player_index = 0
 
 
 
-def deSelectAllPlayers() :
-    vlcplayer.set(False)
-    gomplayer.set(False)
-    potplayer.set(False)
-    mpvplayer.set(False)
-    kmpplayer.set(False)
-
-
-def applyVLC() :
-    global player_index
-    deSelectAllPlayers()
-    vlcplayer.set(True)
-    player_index = 0
-    return
-
-
-def applyGOM() :
-    global player_index
-    deSelectAllPlayers()
-    gomplayer.set(True)
-    player_index = 1
-    return
-
-def applyPOT() :
-    global player_index
-    deSelectAllPlayers()
-    potplayer.set(True)
-    player_index = 2
-    return
-
-
-def applyMPV() :
-    global player_index
-    deSelectAllPlayers()
-    mpvplayer.set(True)
-    player_index = 3
-    return
-  
-
-  
-def applyKMP() :
-    global player_index
-    deSelectAllPlayers()
-    kmpplayer.set(True)
-    player_index = 4
-    return
-
-   
-
 vlcplayer = tk.BooleanVar(value=True)
 gomplayer = tk.BooleanVar(value=False)
 potplayer = tk.BooleanVar(value=False)
 mpvplayer = tk.BooleanVar(value=False)
 kmpplayer = tk.BooleanVar(value=False)
 
+
+playerNames = [ "vlc" , "gom" , "pot" , "mpv" , "kmp" ]
+listOfplayers = [ vlcplayer , gomplayer , potplayer , mpvplayer , kmpplayer ]
+
+
+def deSelectAllPlayers() :
+    for item in listOfplayers : 
+        item.set(False)
+
+
+  
+def applyPlayer(playerItemIndex) :
+    global player_index
+    deSelectAllPlayers()
+    listOfplayers[playerItemIndex].set(True)
+    player_index = playerItemIndex
+    return
+
+   
+
+
+
 player_menu = tkinter.Menu(menubar , tearoff=0)
 
-player_menu.add_checkbutton(label="vlc", variable=vlcplayer , command=applyVLC )
-player_menu.add_checkbutton(label="gom", variable=gomplayer , command=applyGOM )
-player_menu.add_checkbutton(label="pot", variable=potplayer , command=applyPOT )
-player_menu.add_checkbutton(label="mpv", variable=mpvplayer , command=applyMPV )
-player_menu.add_checkbutton(label="kmp", variable=kmpplayer , command=applyKMP )
-
-
+player_menu.add_checkbutton(label=playerNames[0] , variable=listOfplayers[0] , command=lambda:applyPlayer(0) )
+player_menu.add_checkbutton(label=playerNames[1] , variable=listOfplayers[1] , command=lambda:applyPlayer(1) )
+player_menu.add_checkbutton(label=playerNames[2] , variable=listOfplayers[2] , command=lambda:applyPlayer(2) )
+player_menu.add_checkbutton(label=playerNames[3] , variable=listOfplayers[3] , command=lambda:applyPlayer(3) )
+player_menu.add_checkbutton(label=playerNames[4] , variable=listOfplayers[4] , command=lambda:applyPlayer(4) )
 
 
 
@@ -858,50 +877,43 @@ theme_menu = tkinter.Menu(menubar , tearoff=0)
 firstTheme =  tk.BooleanVar(value=True)
 secondTheme = tk.BooleanVar(value=False)
 thirdTheme = tk.BooleanVar(value=False)
+fourthTheme = tk.BooleanVar(value=False)
+fifthTheme = tk.BooleanVar(value=False)
+sixTheme = tk.BooleanVar(value=False)
+sevenTheme = tk.BooleanVar(value=False)
+eightTheme = tk.BooleanVar(value=False)
+nineTheme = tk.BooleanVar(value=False)
+
+themeNames = [ "one" , "two" , "three" , "four" , "five" , "six" , "seven" , "eight" , "nine" ]
+listOfThemes = [ firstTheme , secondTheme , thirdTheme , fourthTheme , fifthTheme , sixTheme , sevenTheme , eightTheme , nineTheme ]
 
 
 def deSelectAllTheme() :
-    firstTheme.set(False)
-    secondTheme.set(False)
-    thirdTheme.set(False)
+    for item in listOfThemes :
+        item.set(False)
 
 
-def applyFirstTheme() :
+def applyTheme(themeItemIndex) :
     global tree
     global themeIndex
     deSelectAllTheme()
-    firstTheme.set(True)
-    themeIndex = 0
+    listOfThemes[themeItemIndex].set(True)
+    themeIndex = themeItemIndex
     fetchAllFilesFromPath(calculateVideoDuration = False)
     tree.focus(selection_index)
 
 
-def applySecondTheme() :
-    global tree
-    global themeIndex
-    deSelectAllTheme()
-    secondTheme.set(True)
-    themeIndex = 1
-    fetchAllFilesFromPath(calculateVideoDuration = False)
-    tree.focus(selection_index)
 
 
-def applyThirdTheme() :
-    global tree
-    global themeIndex
-    deSelectAllTheme()
-    thirdTheme.set(True)
-    themeIndex = 2
-    fetchAllFilesFromPath(calculateVideoDuration = False)
-    tree.focus(selection_index)
-
-
-theme_menu.add_checkbutton(label="First Theme", variable=firstTheme , command=applyFirstTheme )
-
-theme_menu.add_checkbutton(label="Second Theme", variable=secondTheme , command=applySecondTheme )
-
-theme_menu.add_checkbutton(label="Third Theme", variable=thirdTheme , command=applyThirdTheme )
-
+theme_menu.add_checkbutton(label=themeNames[0] , variable=listOfThemes[0] , command=lambda:applyTheme(0) )
+theme_menu.add_checkbutton(label=themeNames[1] , variable=listOfThemes[1] , command=lambda:applyTheme(1) )
+theme_menu.add_checkbutton(label=themeNames[2] , variable=listOfThemes[2] , command=lambda:applyTheme(2) )
+theme_menu.add_checkbutton(label=themeNames[3] , variable=listOfThemes[3] , command=lambda:applyTheme(3) )
+theme_menu.add_checkbutton(label=themeNames[4] , variable=listOfThemes[4] , command=lambda:applyTheme(4) )
+theme_menu.add_checkbutton(label=themeNames[5] , variable=listOfThemes[5] , command=lambda:applyTheme(5) )
+theme_menu.add_checkbutton(label=themeNames[6] , variable=listOfThemes[6] , command=lambda:applyTheme(6) )
+theme_menu.add_checkbutton(label=themeNames[7] , variable=listOfThemes[7] , command=lambda:applyTheme(7) )
+theme_menu.add_checkbutton(label=themeNames[8] , variable=listOfThemes[8] , command=lambda:applyTheme(8) )
 
 
 menubar.add_cascade(
