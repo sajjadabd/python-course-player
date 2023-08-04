@@ -201,9 +201,11 @@ selection_index = None
 def on_tree_row_click(event):
     global selection_index
     # Get the index of the clicked row
-    item = tree.identify_row(event.y)
-    selection_index = int(item)
-
+    try :
+        item = tree.identify_row(event.y)
+        selection_index = int(item)
+    except :
+        pass
 
 
 
