@@ -295,34 +295,39 @@ def OnDoubleClick(event):
     global themeIndex
 
     result = backUpResult
+    
+    try :
 
-    item = tree.selection()
-    #print(item)
-    index = int(item[0])
-    
-    
-    addIfNotInTill(index)
-    saveWatchedVideos()
-    
-    
-    tree.tag_configure( index , background =hightlightBackgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
-    #print(index)
-    #searchString = index
-    #path = searchTheTable()
-    #path = path[0].replace("/" , "\\")
-    path = result[index].replace("/" , "\\")
-    #print(path)
-    
-    if player_index == 0 :
-        subprocess.Popen(f"vlc \"{path}\"")
-    elif player_index == 1 :
-        subprocess.Popen(f"gom \"{path}\"")
-    elif player_index == 2 : 
-        subprocess.Popen(f"PotPlayerMini64 \"{path}\"")
-    elif player_index == 3 : 
-        subprocess.Popen(f"mpv \"{path}\"")
-    elif player_index == 4 : 
-        subprocess.Popen(f"KMPlayer64 \"{path}\"")
+        item = tree.selection()
+        #print(item)
+        index = int(item[0])
+        
+        
+        addIfNotInTill(index)
+        saveWatchedVideos()
+        
+        
+        tree.tag_configure( index , background =hightlightBackgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
+        #print(index)
+        #searchString = index
+        #path = searchTheTable()
+        #path = path[0].replace("/" , "\\")
+        path = result[index].replace("/" , "\\")
+        #print(path)
+        
+        if player_index == 0 :
+            subprocess.Popen(f"vlc \"{path}\"")
+        elif player_index == 1 :
+            subprocess.Popen(f"gom \"{path}\"")
+        elif player_index == 2 : 
+            subprocess.Popen(f"PotPlayerMini64 \"{path}\"")
+        elif player_index == 3 : 
+            subprocess.Popen(f"mpv \"{path}\"")
+        elif player_index == 4 : 
+            subprocess.Popen(f"KMPlayer64 \"{path}\"")
+            
+    except : 
+        pass
     #vlc_instance = vlc.Instance()
     # creating a media player
     #player = vlc_instance.media_player_new()
