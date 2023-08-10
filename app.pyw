@@ -399,6 +399,7 @@ def add_data() :
     global selection_index
     global themeIndex
     global video_duration_array
+    global reversePlaylist
 
     length = len(result)
 
@@ -431,7 +432,12 @@ def add_data() :
 
     counter = 0
     while counter < length :
-        thePath = result[counter].replace( path , '' )
+    
+        if reversePlaylist == False :
+            thePath = result[counter].replace( path , '' )
+        else : 
+            thePath = result[length-counter-1].replace( path , '' )
+        
         parentArray = thePath.split('\\')
         theIndex = len(parentArray)
         currentIndex = theIndex - 1
@@ -448,10 +454,16 @@ def add_data() :
         
         #print(thePath)
         
-        if os.path.isfile(result[counter]) :
-            eachTextString = "[" + str(video_duration_array[counter]) + "]" + " - " + precedence + str(counter+1) + " - " + thePath[1:]
-            tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=counter, open=False , tags = counter )
-            tree.tag_configure( counter , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
+        if reversePlaylist == False :
+            if os.path.isfile(result[counter]) :
+                eachTextString = "[" + str(video_duration_array[counter]) + "]" + " - " + precedence + str(counter+1) + " - " + thePath[1:]
+                tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=counter, open=False , tags = counter )
+                tree.tag_configure( counter , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
+        else : 
+            if os.path.isfile(result[length-counter-1]) :
+                eachTextString = "[" + str(video_duration_array[length-counter-1]) + "]" + " - " + precedence + str(length-counter-1+1) + " - " + thePath[1:]
+                tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=length-counter-1, open=False , tags = length-counter-1 )
+                tree.tag_configure( length-counter-1 , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
         counter += 1
     
@@ -516,9 +528,9 @@ def fetchAllFilesFromPath(calculateVideoDuration = True) :
     if( path.strip() == '') :
         return
 
-    
     search.delete(0,tkinter.END)
     result = glob.glob(path + '/**/*.mp4', recursive=True)
+    
     result = natsort.natsorted(result)
     
     if calculateVideoDuration == True : 
@@ -527,7 +539,8 @@ def fetchAllFilesFromPath(calculateVideoDuration = True) :
             video_length = get_length(item)
             video_duration_array.append(video_length)
         #print(video_length)
-    #print(result)
+    
+    
     
     add_data()
     highlightWatchedVideos()
@@ -752,7 +765,19 @@ def toggle_check():
     treeCompleteString = check_var.get()
     fetchAllFilesFromPath(calculateVideoDuration = False)
 
-        
+
+
+
+reversePlaylist = False
+
+
+def reverse_check() :
+    global reversePlaylist 
+    if reversePlaylist == True :
+        reversePlaylist = False 
+    else :
+        reversePlaylist = True
+    fetchAllFilesFromPath(calculateVideoDuration = False)
 
 
 menubar = tkinter.Menu(root)
@@ -774,6 +799,12 @@ options_menu = tkinter.Menu(menubar , tearoff=0)
 
 
 #options_menu.configure(background=backgroundColors[1], foreground=foregroundColors[1])
+
+
+reverse_var = tk.BooleanVar(value=False)  # Variable to store the checkbox state
+options_menu.add_checkbutton(label="Reverse", variable=reverse_var, command=reverse_check)
+
+
 
 
 options_menu.add_command(
