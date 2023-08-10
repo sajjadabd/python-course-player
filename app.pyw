@@ -760,34 +760,39 @@ tree.bind("<Down>" , arrowDownKeyHandler)
 
 
 
-
-def decreaseFontSize(event) :
+def changeFontSize( value ) :
     global fontSize
     global rowHeight
-    fontSize -= 1
+    
+    fontSize += value
     rowHeight = (fontSize * 2) 
     font_properties = ( "ubuntu", fontSize )
 
     style.configure("Treeview", font=font_properties )
     style.configure('Treeview', rowheight=rowHeight)
-    
-    #fetchAllFilesFromPath(calculateVideoDuration = False)
+
+def decreaseFontSize(event) :
+    if event.keysym == "minus" :
+        changeFontSize(-1)
 
 def increaseFontSize(event) :
-    global fontSize
-    global rowHeight
-    fontSize += 1
-    rowHeight = (fontSize * 2)
-    font_properties = ( "ubuntu", fontSize )
-
-    style.configure("Treeview", font=font_properties )
-    style.configure('Treeview', rowheight=rowHeight)
-    
-    #fetchAllFilesFromPath(calculateVideoDuration = False)
+    changeFontSize(1)
 
 
 root.bind("<KeyPress-+>" , increaseFontSize)
 root.bind("<KeyPress-->" , decreaseFontSize)
+
+
+def mousewheel(event) :
+    global fontSize
+    global rowHeight
+    
+    if event.delta > 0:
+        changeFontSize(1)
+    elif event.delta < 0:
+        changeFontSize(-1)
+
+root.bind("<Control-MouseWheel>", mousewheel)
 
 
 # place the Searchbar widget on the root window
