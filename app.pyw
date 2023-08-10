@@ -435,15 +435,18 @@ def add_data() :
     
         if reversePlaylist == False :
             thePath = result[counter].replace( path , '' )
+            precedence = '0' * ( abs(len(str(counter+1)) - len(str(len(result)))) )
         else : 
             thePath = result[length-counter-1].replace( path , '' )
+            precedence = '0' * ( abs(len(str(length-counter-1+1)) - len(str(len(result)))) )
         
         parentArray = thePath.split('\\')
         theIndex = len(parentArray)
         currentIndex = theIndex - 1
         parrantIndex = theIndex - 1 - 1
         #print(result[counter])
-        precedence = '0' * ( abs(len(str(counter+1)) - len(str(len(result)))) )
+        
+        
         
         if treeCompleteString == True : 
             pass 
