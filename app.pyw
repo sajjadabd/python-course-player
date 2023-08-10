@@ -149,8 +149,9 @@ foregroundColors = [
     '#cad2c5' ,
 ]
 
-rowHeight = 23
+
 fontSize = 12
+rowHeight = fontSize * 2
 font_properties = ( "ubuntu", fontSize )
 
 #style = ttk.Style()
@@ -756,6 +757,38 @@ def arrowDownKeyHandler(event) :
 
 tree.bind("<Up>" , arrowUpKeyHandler)
 tree.bind("<Down>" , arrowDownKeyHandler)
+
+
+
+
+def decreaseFontSize(event) :
+    global fontSize
+    global rowHeight
+    fontSize -= 1
+    rowHeight = (fontSize * 2) 
+    font_properties = ( "ubuntu", fontSize )
+
+    style.configure("Treeview", font=font_properties )
+    style.configure('Treeview', rowheight=rowHeight)
+    
+    #fetchAllFilesFromPath(calculateVideoDuration = False)
+
+def increaseFontSize(event) :
+    global fontSize
+    global rowHeight
+    fontSize += 1
+    rowHeight = (fontSize * 2)
+    font_properties = ( "ubuntu", fontSize )
+
+    style.configure("Treeview", font=font_properties )
+    style.configure('Treeview', rowheight=rowHeight)
+    
+    #fetchAllFilesFromPath(calculateVideoDuration = False)
+
+
+root.bind("<KeyPress-+>" , increaseFontSize)
+root.bind("<KeyPress-->" , decreaseFontSize)
+
 
 # place the Searchbar widget on the root window
 # search.grid(row=0, column=0 , sticky=tk.W , ipady = 2  )
