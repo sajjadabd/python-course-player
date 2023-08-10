@@ -400,6 +400,7 @@ def add_data() :
     global themeIndex
     global video_duration_array
     global reversePlaylist
+    global numbering
 
     length = len(result)
 
@@ -459,12 +460,18 @@ def add_data() :
         
         if reversePlaylist == False :
             if os.path.isfile(result[counter]) :
-                eachTextString = "[" + str(video_duration_array[counter]) + "]" + " - " + precedence + str(counter+1) + " - " + thePath[1:]
+                if numbering == True :
+                    eachTextString = "[" + str(video_duration_array[counter]) + "]" + " - " + precedence + str(counter+1) + " - " + thePath[1:]
+                else :
+                    eachTextString = "[" + str(video_duration_array[counter]) + "]" + " - " + thePath[1:]
                 tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=counter, open=False , tags = counter )
                 tree.tag_configure( counter , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
         else : 
             if os.path.isfile(result[length-counter-1]) :
-                eachTextString = "[" + str(video_duration_array[length-counter-1]) + "]" + " - " + precedence + str(length-counter-1+1) + " - " + thePath[1:]
+                if numbering == True :
+                    eachTextString = "[" + str(video_duration_array[length-counter-1]) + "]" + " - " + precedence + str(length-counter-1+1) + " - " + thePath[1:]
+                else :
+                    eachTextString = "[" + str(video_duration_array[length-counter-1]) + "]" + " - " + thePath[1:]
                 tree.insert('', tk.END, text=eachTextString.replace( "\\" , "  \\  " ) , iid=length-counter-1, open=False , tags = length-counter-1 )
                 tree.tag_configure( length-counter-1 , background =backgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
         #checkToSeeIfThereIsParents(parentArray , theIndex , currentIndex , parrantIndex)
@@ -783,6 +790,20 @@ def reverse_check() :
     fetchAllFilesFromPath(calculateVideoDuration = False)
 
 
+
+numbering = True 
+
+def numbering_check() :
+    global numbering
+    if numbering == True :
+        numbering = False 
+    else :
+        numbering = True
+    fetchAllFilesFromPath(calculateVideoDuration = False)
+
+
+
+
 menubar = tkinter.Menu(root)
 
 menubar.configure(background=backgroundColors[1], foreground=foregroundColors[1])
@@ -802,6 +823,11 @@ options_menu = tkinter.Menu(menubar , tearoff=0)
 
 
 #options_menu.configure(background=backgroundColors[1], foreground=foregroundColors[1])
+
+
+numbering_var = tk.BooleanVar(value=True)  # Variable to store the checkbox state
+options_menu.add_checkbutton(label="Numbering", variable=numbering_var, command=numbering_check)
+
 
 
 reverse_var = tk.BooleanVar(value=False)  # Variable to store the checkbox state
