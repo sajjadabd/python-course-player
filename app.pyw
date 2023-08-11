@@ -639,16 +639,20 @@ def openfile():
     global result
     global path
     
-    result = []
-    path = filedialog.askdirectory()
-    
-    #print(f"#{path}#")
-    if( path.strip() == '' ) :
+    try :
+        temp_path = filedialog.askdirectory()
+        
+        #print(f"#{path}#")
+        if( temp_path.strip() == '' ) :
+            pass
+        else :
+            path = temp_path
+            result = []
+            fetchSavedHistory()
+            fetchAllFilesFromPath()
+            #return filedialog.askopenfilename()
+    except : 
         pass
-    else :
-        fetchSavedHistory()
-        fetchAllFilesFromPath()
-        #return filedialog.askopenfilename()
     
 
 
