@@ -33,6 +33,25 @@ result = []
 backUpResult = []
 path = ''
 
+
+
+class FullScreenApp(object):
+    def __init__(self, master, **kwargs):
+        self.master=master
+        pad=3
+        self._geom='200x200+0+0'
+        master.geometry("{0}x{1}+0+0".format(
+            master.winfo_screenwidth(), master.winfo_screenheight()))
+        master.bind('<Escape>',self.toggle_geom)            
+    def toggle_geom(self,event):
+        geom=self.master.winfo_geometry()
+        print(geom,self._geom)
+        self.master.geometry(self._geom)
+        self._geom=geom
+        
+        
+        
+
 class PlaceholderEntry(tk.Entry):
     def __init__(self, master=None, placeholder='', cnf={}, fg='black',
                  fg_placeholder='grey50', *args, **kw):
@@ -63,9 +82,14 @@ class PlaceholderEntry(tk.Entry):
 # create root window
 root = tk.Tk()
 
+
 #root = ThemedTk(theme="awdark")
 root.title('Playlist Manager')
-root.geometry('500x400')
+#root.geometry('500x400')
+padx = -6
+pady = -5
+
+root.geometry( '{0}x{1}+{2}+{3}'.format( str(root.winfo_screenwidth()) , str(root.winfo_screenheight()) , padx , pady  ) )
 
 # configure the grid layout
 root.rowconfigure(0, weight=1)
@@ -1044,8 +1068,10 @@ menubar.add_cascade(
     menu=player_menu,
 )
 
-
+#app=FullScreenApp(root)
 # run the app
+
+#root.attributes("-fullscreen", True) 
 root.mainloop()
 
 
