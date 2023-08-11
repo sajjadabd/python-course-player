@@ -89,7 +89,13 @@ root.title('Playlist Manager')
 padx = -6
 pady = -5
 
-root.geometry( '{0}x{1}+{2}+{3}'.format( str(root.winfo_screenwidth()) , str(root.winfo_screenheight()) , padx , pady  ) )
+
+#titlebar_height = root.winfo_rooty() - root.winfo_y()
+#root.geometry( '{0}x{1}+{2}+{3}'.format( str( root.winfo_screenwidth() ) , str( root.winfo_screenheight()  - titlebar_height * 2 ) , padx , pady  ) )
+root.state('zoomed')
+
+#print("titlebar_height : " , titlebar_height) 
+
 
 # configure the grid layout
 root.rowconfigure(0, weight=1)
