@@ -763,11 +763,11 @@ def ShowLovedVideos() :
     global themeIndex
     global lovedEmojies
     
-    #print(love)
+    
     
     counter = 0
     while counter < len(love) :
-        tree.item( love[counter] , text=tree.item(counter)["text"] + " " + lovedEmojies  )
+        tree.item( love[counter] , text=tree.item(love[counter])["text"] + " " + lovedEmojies  )
         counter += 1
                 
 
