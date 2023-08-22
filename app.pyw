@@ -180,6 +180,8 @@ foregroundColors = [
 ]
 
 
+lovedEmojies = "♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥"
+
 fontSize = 12
 rowHeight = fontSize * 2
 font_properties = ( "ubuntu", fontSize )
@@ -208,7 +210,7 @@ style.configure('Treeview', rowheight=rowHeight)
 style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected' , selectedForegroundColors[themeIndex])])
 #('aqua', 'step', 'clam', 'alt', 'default', 'classic')
 
-topFrame = ttk.Frame(root )
+topFrame = ttk.Frame(root)
 
 # create a treeview
 tree = ttk.Treeview( root , show="tree")
@@ -273,6 +275,63 @@ def DeHightLightRow(event):
 
 
 
+
+def printNode(event) :
+    global tree
+    global till
+    global themeIndex
+    
+    counter = 0
+    while counter < len(till) :
+        print(tree.item(counter)["text"])
+        #tree.tag_configure( till[counter]  ,  background =hightlightBackgroundColors[themeIndex] , foreground =foregroundColors[themeIndex] )
+        counter += 1
+
+
+
+def Love(event):
+    global tree 
+    global till
+    global themeIndex
+    global lovedEmojies
+
+    item = tree.selection()
+    index = int(item[0])
+    
+    #addIfNotInTill(index)
+    addIfNotInLove(index)
+    saveLovedVideos()
+    
+    #print(tree.item(index)["text"] + " " + lovedEmojies)
+    
+    tree.item( index , text=tree.item(index)["text"] + " " + lovedEmojies  )
+
+
+
+
+
+
+
+def UnLove(event):
+    global tree 
+    global till
+    global themeIndex
+
+    item = tree.selection()
+    index = int(item[0])
+    
+    #removeIfInTill(index)
+    removeIfInLove(index)
+    saveLovedVideos()
+    
+    tree.item( index , text=tree.item(index)["text"].replace(lovedEmojies , '' ))
+
+
+
+
+
+
+
 till = []
 
 
@@ -313,6 +372,48 @@ def saveWatchedVideos() :
     
     f.close()
 
+
+
+
+
+love = []
+
+
+def addIfNotInLove(index) :
+    global love
+    found = False
+    for item in love:
+        if index == item :
+            found = True
+    
+    if (found == False) :
+        love.append(index)
+
+
+def removeIfInLove(index) :
+    global love
+    found = False
+    counter = 0
+    while counter < len(love) :
+        if index == love[counter] :
+            love.remove(index)
+            break
+        counter += 1
+
+
+def saveLovedVideos() :
+    global path
+    global love
+    
+    lengthOfTill = len(love)
+    f = open( path.replace("/" , "\\") + "\\loved.txt" , "w")
+    
+    counter = 0
+    while counter < len(love) :
+        f.write( str(love[counter]) + "\n" )
+        counter += 1
+    
+    f.close()
 
 
 
@@ -585,6 +686,7 @@ def fetchAllFilesFromPath(calculateVideoDuration = True) :
     
     add_data()
     highlightWatchedVideos()
+    ShowLovedVideos()
     backUpResult = result
     label.config(text=(path + f" ({len(result)} files)"))
     
@@ -621,6 +723,27 @@ def fetchSavedHistory() :
 
 
 
+
+def fetchLovedHistory() : 
+    global untill
+    global path
+    global love
+    
+    love = []
+    #print(path.replace("/" , "\\") + "\\loved.txt")
+    try :
+        f = open( path.replace("/" , "\\") + "\\loved.txt" , "r")
+        #line = f.readline()
+        for line in f:
+            # All lines and strip last line which is newline
+            love.append(int(line.strip()))
+        f.close()
+    except :
+        pass
+
+
+
+
 def highlightWatchedVideos() :
     global tree
     global till
@@ -634,7 +757,19 @@ def highlightWatchedVideos() :
             
 
 
-
+def ShowLovedVideos() :
+    global tree
+    global love
+    global themeIndex
+    global lovedEmojies
+    
+    #print(love)
+    
+    counter = 0
+    while counter < len(love) :
+        tree.item( love[counter] , text=tree.item(counter)["text"] + " " + lovedEmojies  )
+        counter += 1
+                
 
 
     
@@ -655,6 +790,7 @@ def openfile():
             path = temp_path
             result = []
             fetchSavedHistory()
+            fetchLovedHistory()
             fetchAllFilesFromPath()
             #return filedialog.askopenfilename()
     except : 
@@ -771,7 +907,15 @@ tree.bind("<a>", HighLightRow)
 tree.bind("<R>", DeHightLightRow)
 tree.bind("<r>", DeHightLightRow)
 
+tree.bind("<L>", Love)
+tree.bind("<l>", Love)
 
+tree.bind("<X>", UnLove)
+tree.bind("<x>", UnLove)
+
+
+
+tree.bind("<p>", printNode)
 
 
 
