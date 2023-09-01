@@ -304,7 +304,8 @@ def Love(event):
     
     #print(tree.item(index)["text"] + " " + lovedEmojies)
     
-    tree.item( index , text=tree.item(index)["text"] + " " + lovedEmojies  )
+    if lovedEmojies not in tree.item(index)["text"] : 
+        tree.item( index , text=tree.item(index)["text"] + " " + lovedEmojies  )
 
 
 
@@ -611,7 +612,7 @@ def add_data() :
     
     style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foreground=[('selected' , selectedForegroundColors[themeIndex])])
     
-    if selection_index != None :
+    if selection_index != None and selection_index < length :
         tree.selection_set(selection_index)
     # adding children of first node
     # tree.insert('', tk.END, text='John Doe', iid=5, open=False)
@@ -788,6 +789,7 @@ def openfile():
             pass
         else :
             path = temp_path
+            #print(path)
             result = []
             fetchSavedHistory()
             fetchLovedHistory()
