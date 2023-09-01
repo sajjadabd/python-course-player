@@ -102,7 +102,7 @@ root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 
 
-themeIndex = 0
+themeIndex = 1
 
 
 
@@ -182,7 +182,7 @@ foregroundColors = [
 
 lovedEmojies = "♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥"
 
-fontSize = 12
+fontSize = 16
 rowHeight = fontSize * 2
 font_properties = ( "ubuntu", fontSize )
 
