@@ -1159,8 +1159,8 @@ theme_menu = tkinter.Menu(menubar , tearoff=0)
 #theme_menu.configure(background=backgroundColors[1], foreground=foregroundColors[1])
 
 
-firstTheme =  tk.BooleanVar(value=True)
-secondTheme = tk.BooleanVar(value=False)
+firstTheme =  tk.BooleanVar(value=False)
+secondTheme = tk.BooleanVar(value=True)
 thirdTheme = tk.BooleanVar(value=False)
 fourthTheme = tk.BooleanVar(value=False)
 fifthTheme = tk.BooleanVar(value=False)
