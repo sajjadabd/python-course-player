@@ -80,7 +80,7 @@ After installing your preferred media player, make sure to add the player's loca
 
 For Windows 7:
 
-* Add a semicolon (;) to the end of the variable and append the location of your video player. Click "OK" and apply the changes to every open window.
+* Add a semicolon (;) to the end of the variable and append the location of your video player. Click "OK" and apply the changes.
 
 For Windows 10:
 
