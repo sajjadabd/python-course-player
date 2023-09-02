@@ -85,7 +85,7 @@ For Windows 7:
 For Windows 10:
 
 * Click "New" 
-* Enter the path to the folder containing the video player
+* Enter the path of the folder containing the video player
 * Click "OK" to save the changes to your variables.
 
 Once you've added the location to your system's PATH, place the `app.pyw` file wherever you prefer on your computer. To run the program, simply double-click `app.pyw` Enjoy your uninterrupted tutorial viewing experience!
