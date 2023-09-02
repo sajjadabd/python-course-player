@@ -10,25 +10,27 @@ this program helps you to save the history of watching videos and you just focus
 
 ## Installation 
 
-first of all you should have python3 installed on your computer , you can download and install python from the official python website : 
+Before you get started, ensure that you have Python 3 installed on your computer. You can download and install Python from the official website by visiting the following link:
 
 ```shell
 https://www.python.org/downloads/
 ```
 
-after installing python you should just clone the repository from github :
+### Once Python is installed, follow these steps to set up the program:
+
+1 . Clone the repository from GitHub by running the following command in your terminal:
 
 ```shell
-https://github.com/sajjadabd/python-course-player.git
+git clone https://github.com/sajjadabd/python-course-player.git
 ```
 
-you can upgrade your pip to make sure that you have the latest version on your local machine :
-
+2 . To ensure you have the latest version of pip on your local machine, upgrade it by running the following command:
+	
 ```shell
 python.exe -m pip install --upgrade pip
 ```
 
-and now you can install the neccessary packages :
+3 . Install the necessary packages by running:
 
 ```shell
 pip install -r requirements.txt
@@ -37,9 +39,7 @@ pip install -r requirements.txt
 
 ## Running the program 
 
-This program can play videos with `VLC media player` , `GOM Player` , `PotPlayer` , `mpv Player` and `KMPlayer`
-
-you should download and install the media player you want to open videos within your program , these links can help you download the right media player you need 
+This program supports video playback with various media players, including VLC media player, GOM Player, PotPlayer, mpv Player, and KMPlayer. You'll need to download and install the media player of your choice to open videos within the program. Here are the download links for each player:
 
 VLC media player :
 
@@ -71,26 +71,23 @@ KMPlayer :
 https://www.filehorse.com/download-kmplayer-64/
 ```
 
-after installing your favorite media player make sure to add the location of your video player to path
-
-in Windows to add the location of your application to the path do like this :
+After installing your preferred media player, make sure to add the player's location to your system's PATH environment variable. Here's how to do it on Windows:
 
 
-* Right click on This PC (My Comptuer) and go to Properties 
-* go to Advanced System Settings 
+* Right-click on "This PC" (or "My Computer") and select "Properties"
+* go to "Advanced System Settings"
 * Go to the "Advanced" tab
 * Click "Environment Variables…"
-* look for "path" in System variables and select it and Click Edit
+* Look for "Path" in the "System variables" section, select it, and click "Edit"
 
-in Windows 7 :
+For Windows 7:
 
-* add semicolon (;) to end of the variable and add your video player location and click OK and Apply to every window you open
+* Add a semicolon (;) to the end of the variable and append the location of your video player. Click "OK" and apply the changes to every open window.
 
-in Windows 10 :
+For Windows 10:
 
-* Click "New"
-* Enter the path to the folder containing the video player 
-* Click "OK" to save the changes to your variables
+* Click "New" 
+* Enter the path to the folder containing the video player
+* Click "OK" to save the changes to your variables.
 
-
-put `app.pyw` in place you want in your computer and you can double click the program to run 
+Once you've added the location to your system's PATH, place the `app.pyw` file wherever you prefer on your computer. To run the program, simply double-click `app.pyw` Enjoy your uninterrupted tutorial viewing experience!
