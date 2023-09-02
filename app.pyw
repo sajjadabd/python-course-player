@@ -6,7 +6,6 @@ from tkinter import ttk
 from tkinter.messagebox import showinfo
 from tkinter import filedialog
 from tkinter.simpledialog import askstring
-from tkinter.messagebox import showinfo
 from tkinter import font
 
 import tkinter.font as fnt
@@ -1201,6 +1200,32 @@ theme_menu.add_checkbutton(label=themeNames[7] , variable=listOfThemes[7] , comm
 theme_menu.add_checkbutton(label=themeNames[8] , variable=listOfThemes[8] , command=lambda:applyTheme(8) )
 
 
+keyboardShortcutsMessage = """
+    a -> add video to watched videos
+    r -> remove video from watched videos
+    l -> add video to loved videos
+    x -> remove video from loved videos
+    Enter -> play selected video
+    """
+
+def showKeyboardShortcuts() :
+    showinfo(title="Keyboard Shortcuts", message=keyboardShortcutsMessage)
+
+
+
+about_menu = tkinter.Menu(menubar , tearoff=0)
+
+
+about_menu.add_command(
+    label='Keyboard Shortcuts',
+    command=showKeyboardShortcuts,
+)
+
+
+
+
+
+
 menubar.add_cascade(
     label="File",
     menu=file_menu,
@@ -1222,6 +1247,11 @@ menubar.add_cascade(
 menubar.add_cascade(
     label="Player",
     menu=player_menu,
+)
+
+menubar.add_cascade(
+    label="About",
+    menu=about_menu,
 )
 
 #app=FullScreenApp(root)
