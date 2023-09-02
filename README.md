@@ -1,12 +1,8 @@
 # python-course-player
 
-Hi everybody , this program helping you to manage the history of tutorials you have been watched
+Hi everybody !
 
-nowadays each of us should learn something new everyday to compete in the fast growing industry
-
-but it would be hard to manage what was your last video you watched in the special tutorial 
-
-this program helps you to save the history of watching videos and you just focused on watching tutorials 
+This program is designed to help you manage your tutorial viewing history. In today's rapidly evolving industry, learning something new every day is essential to stay competitive. However, keeping track of the last video you watched in a specific tutorial can be challenging. This program simplifies the process by allowing you to save your video-watching history, so you can focus on your tutorials without worrying about losing your place.
 
 ## Installation 
 
