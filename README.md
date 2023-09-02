@@ -6,6 +6,8 @@ This program is designed to help you manage your tutorial viewing history. In to
 
 ## Installation 
 
+0 . First of all , Install `Python` on your computer 
+
 Before you get started, ensure that you have Python 3 installed on your computer. You can download and install Python from the official website by visiting the following link:
 
 ```shell
