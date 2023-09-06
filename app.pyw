@@ -632,18 +632,22 @@ def add_data() :
 
 
 def get_length(filename):
-    video = cv2.VideoCapture(filename)
+    video_time = '----'
+    try :
+        video = cv2.VideoCapture(filename)
 
-    #duration = video.get(cv2.CAP_PROP_POS_MSEC)
-    #frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
+        #duration = video.get(cv2.CAP_PROP_POS_MSEC)
+        #frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
 
-    # count the number of frames
-    frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
-    fps = video.get(cv2.CAP_PROP_FPS)
-      
-    # calculate duration of the video
-    seconds = round(frames / fps)
-    video_time = datetime.timedelta(seconds=seconds)
+        # count the number of frames
+        frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+        fps = video.get(cv2.CAP_PROP_FPS)
+          
+        # calculate duration of the video
+        seconds = round(frames / fps)
+        video_time = datetime.timedelta(seconds=seconds)
+    except : 
+        pass
     
     return video_time
     
