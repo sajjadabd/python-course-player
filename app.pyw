@@ -211,6 +211,9 @@ style.map('Treeview',  background=[('selected', 'invalid' , '#264653')] , foregr
 
 topFrame = ttk.Frame(root)
 
+
+
+
 # create a treeview
 tree = ttk.Treeview( root , show="tree")
 
@@ -803,9 +806,13 @@ def openfile():
     
 
 
+
+
 buttonFont = fnt.Font(family='ubuntu', size=36, weight='bold')
 
 style.configure( 'my.TButton', font=font_properties , anchor='c' )
+
+
 label = ttk.Label(topFrame , text='select folder to load directories ...' , font=font_properties )
 button = ttk.Button(topFrame , text = 'browse' , command=openfile , style='my.TButton'  )
 
@@ -814,8 +821,19 @@ button = ttk.Button(topFrame , text = 'browse' , command=openfile , style='my.TB
 #button.place( relx=0.5 , rely=0.5 )
 
 label.pack( expand=True , fill='both'  , side=tkinter.LEFT , anchor=tkinter.NW)
-button.pack( expand=False  , fill='none'  , side=tkinter.RIGHT  , anchor=tkinter.NE)
+#button.pack( expand=False  , fill='none'  , side=tkinter.RIGHT  , anchor=tkinter.NE)
+#label.place(relx=0, rely=0, anchor=tk.NW)
+button.place(relx=1, rely=0, anchor=tk.NE)
 
+"""
+label = ttk.Label(label_frame, text='select folder to load directories ...', font=font_properties)
+label.pack(expand=True, fill='both', side=tkinter.LEFT , anchor=tkinter.NW)
+
+button = ttk.Button(button_frame, text='browse', command=openfile , style='my.TButton')
+button.pack(expand=False, fill='none' , side=tkinter.RIGHT  , anchor=tkinter.NE)
+"""
+
+#topFrame.pack(expand=True, fill='both')
 topFrame.pack( fill='both' )
 
 sv = tkinter.StringVar()
