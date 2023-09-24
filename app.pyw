@@ -182,9 +182,12 @@ foregroundColors = [
 lovedEmojies = "♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥"
 
 fontSize = 16
+labelFontSize = 16
 rowHeight = fontSize * 2
-font_properties = ( "ubuntu", fontSize )
+fixedRowHeight = fontSize * 2
 
+font_properties = ( "ubuntu", fontSize )
+label_font_properties = ( "ubuntu", labelFontSize )
 #style = ttk.Style()
 
 style = ThemedStyle(root)
@@ -813,7 +816,7 @@ buttonFont = fnt.Font(family='ubuntu', size=36, weight='bold')
 style.configure( 'my.TButton', font=font_properties , anchor='c' )
 
 
-label = ttk.Label(topFrame , text='select folder to load directories ...' , font=font_properties )
+label = ttk.Label(topFrame , text='select folder to load directories ...' , font=font_properties  )
 button = ttk.Button(topFrame , text = 'browse' , command=openfile , style='my.TButton'  )
 
 
@@ -961,9 +964,26 @@ tree.bind("<Down>" , arrowDownKeyHandler)
 
 
 
+
+
+def changeLabelFontSize( value ) :
+    global labelFontSize
+    
+    if( fontSize < 5 and value < 0 ) :
+        return
+    
+    labelFontSize += value
+    label_font_properties = ( "ubuntu", labelFontSize )
+    label.config(font=label_font_properties)
+    #label.config(text=(path + f" ({len(result)} files)"))
+    
+
 def changeFontSize( value ) :
     global fontSize
     global rowHeight
+    
+    if( fontSize < 5 and value < 0 ) :
+        return
     
     fontSize += value
     rowHeight = (fontSize * 2) 
@@ -993,8 +1013,19 @@ def mousewheel(event) :
     elif event.delta < 0:
         changeFontSize(-1)
 
-root.bind("<Control-MouseWheel>", mousewheel)
 
+def mousewheelForLabel(event) :
+    global labelFontSize
+    
+    if event.delta > 0:
+        changeLabelFontSize(1)
+    elif event.delta < 0:
+        changeLabelFontSize(-1)
+
+
+tree.bind("<Control-MouseWheel>", mousewheel)
+
+label.bind("<Control-MouseWheel>", mousewheelForLabel)
 
 # place the Searchbar widget on the root window
 # search.grid(row=0, column=0 , sticky=tk.W , ipady = 2  )
