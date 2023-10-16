@@ -3,7 +3,8 @@ import glob
 import tkinter
 import tkinter as tk
 from tkinter import ttk
-from tkinter.messagebox import showinfo
+#from tkinter.messagebox import showinfo
+from tkinter import messagebox  
 from tkinter import filedialog
 from tkinter.simpledialog import askstring
 from tkinter import font
@@ -11,6 +12,8 @@ from tkinter import font
 import tkinter.font as fnt
 
 from ttkthemes import ThemedStyle
+
+from tkinterdnd2 import DND_FILES, TkinterDnD
 
 import os
 
@@ -79,7 +82,7 @@ class PlaceholderEntry(tk.Entry):
         return content
 
 # create root window
-root = tk.Tk()
+root = TkinterDnD.Tk()
 
 
 #root = ThemedTk(theme="awdark")
@@ -810,6 +813,23 @@ def openfile():
 
 
 
+def dropDirectory(e) :
+    global result
+    global path
+    
+    try : 
+        path = str(e.data)
+        #print(path)
+        result = []
+        fetchSavedHistory()
+        fetchLovedHistory()
+        fetchAllFilesFromPath()
+        #return filedialog.askopenfilename()
+    except : 
+        pass
+    
+    #messagebox.showinfo(f"information",f"{e.data}")
+
 
 buttonFont = fnt.Font(family='ubuntu', size=36, weight='bold')
 
@@ -817,6 +837,11 @@ style.configure( 'my.TButton', font=font_properties , anchor='c' )
 
 
 label = ttk.Label(topFrame , text='select folder to load directories ...' , font=font_properties  )
+
+label.drop_target_register(DND_FILES)
+label.dnd_bind('<<Drop>>', dropDirectory )
+#messagebox.showinfo(f"information",f"search for {skill_search} in {country}")  
+
 button = ttk.Button(topFrame , text = 'browse' , command=openfile , style='my.TButton'  )
 
 
