@@ -813,12 +813,19 @@ def openfile():
 
 
 
+def sanitizeString(str) :
+    for ch in ['{','}']:
+        if ch in str:
+            str = str.replace(ch,"")
+    return str
+
+
 def dropDirectory(e) :
     global result
     global path
     
     try : 
-        path = str(e.data)
+        path = sanitizeString(e.data)
         #print(path)
         result = []
         fetchSavedHistory()
