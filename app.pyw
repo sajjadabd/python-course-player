@@ -19,8 +19,6 @@ import os
 
 import natsort
 
-import vlc
-
 import subprocess
 
 import numpy as np
@@ -463,7 +461,7 @@ def OnDoubleClick(event):
         elif player_index == 2 : 
             subprocess.Popen(f"PotPlayerMini64 \"{path}\"")
         elif player_index == 3 : 
-            subprocess.Popen(f"mpv \"{path}\"")
+            subprocess.Popen(f"mpv --fs \"{path}\"")
         elif player_index == 4 : 
             subprocess.Popen(f"KMPlayer64 \"{path}\"")
             
@@ -1294,7 +1292,7 @@ keyboardShortcutsMessage = """
     """
 
 def showKeyboardShortcuts() :
-    showinfo(title="Keyboard Shortcuts", message=keyboardShortcutsMessage)
+    messagebox.showinfo(title="Keyboard Shortcuts", message=keyboardShortcutsMessage)
 
 
 
