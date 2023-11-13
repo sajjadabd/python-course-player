@@ -455,7 +455,7 @@ def OnDoubleClick(event):
         #print(path)
         
         if player_index == 0 :
-            subprocess.Popen(f"vlc \"{path}\"")
+            subprocess.Popen(f"vlc --fullscreen \"{path}\"")
         elif player_index == 1 :
             subprocess.Popen(f"gom \"{path}\"")
         elif player_index == 2 : 
